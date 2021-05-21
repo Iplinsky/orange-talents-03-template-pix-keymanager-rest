@@ -1,0 +1,116 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "br.com.zup.academy";
+option java_outer_classname = "KeyManager";
+
+import "google/protobuf/timestamp.proto";
+
+package br.com.zup.academy;
+
+service KeyManagerCadastrarGrpcService {
+  rpc cadastrarChavePix(KeyPixRequestCadastro) returns (KeyPixResponseCadastro) {}
+}
+
+service KeyManagerRemoveGrpcService {
+  rpc removerChavePix(KeyPixRequestRemove) returns (KeyPixResponseRemove) {}
+}
+
+service KeymanagerConsultarGrpcService {
+  rpc consultarChavePix(KeyPixRequestConsulta) returns (KeyPixResponseConsulta) {}
+}
+
+service  KeyManagerConsultarTodasGrpcService {
+  rpc consultarTodasChavesPix(KeyPixRequestConsultaTodas) returns (KeyPixResponseConsultaTodas) {}
+}
+
+/********* CADASTRO *********/
+
+enum TipoChave {
+  TIPO_CHAVE_DESCONHECIDA = 0;
+  CPF = 1;
+  TELEFONE = 2;
+  EMAIL = 3;
+  ALEATORIA = 4;
+}
+
+enum TipoConta {
+  TIPO_CONTA_DESCONHECIDA = 0;
+  CONTA_CORRENTE = 1;
+  CONTA_POUPANCA = 2;
+}
+
+message KeyPixRequestCadastro {
+  string clientId = 1;
+  TipoChave tipoChavePix = 2;
+  string valorChave = 3;
+  TipoConta tipoConta = 4;
+
+}
+
+message KeyPixResponseCadastro {
+  string clientId = 1;
+  string pixId = 2;
+}
+
+/********* REMOVE *********/
+
+message KeyPixRequestRemove {
+  string pixId = 1;
+  string clientId = 2;
+}
+
+message KeyPixResponseRemove {
+  string pixId = 1;
+}
+
+/********* CONSULTA ESPECÍFICA *********/
+
+message KeyPixRequestConsulta {
+  message SearchByPixAndClientId {
+    string clientId = 1;
+    string pixId = 2;
+  }
+  oneof searchType {
+    SearchByPixAndClientId pixId = 1;
+    string chave = 2;
+  }
+}
+
+message KeyPixResponseConsulta {
+  message ChavePix {
+    message ContaInfo {
+      TipoConta tipo = 1;
+      string instituicao = 2;
+      string nomeDoTitular = 3;
+      string cpfDoTitular = 4;
+      string agencia = 5;
+      string numeroDaConta = 6;
+    }
+    TipoChave tipo = 1;
+    string chave = 2;
+    ContaInfo conta = 3;
+    google.protobuf.Timestamp criadaEm = 4;
+  }
+  string clienteId = 1;
+  string pixId = 2;
+  ChavePix chave = 3;
+}
+
+/********* CONSULTA GERAL *********/
+
+message KeyPixRequestConsultaTodas {
+  string clientId = 1;
+}
+
+message KeyPixResponseConsultaTodas {
+  message ChavePix {
+    string pixId = 1;
+    TipoChave tipoChave = 2;
+    string valorChave = 3;
+    TipoConta tipoConta = 4;
+    google.protobuf.Timestamp criadaEm = 5;
+  }
+  string clientId = 1;
+  repeated ChavePix chavesPix = 2;
+}
