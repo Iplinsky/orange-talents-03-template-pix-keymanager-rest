@@ -37,14 +37,18 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}")
     implementation("io.micronaut:micronaut-http-client")
-
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
     runtimeOnly("ch.qos.logback:logback-classic")
     runtimeOnly("com.h2database:h2")
-
     annotationProcessor("io.micronaut:micronaut-inject-java")
-
     testImplementation("io.micronaut:micronaut-http-client")
+    testImplementation(group: 'org.mockito', name: 'mockito-inline', version: '3.8.0')
+    // Mockito
+    testImplementation("org.mockito:mockito-core")
+    implementation("org.mockito:mockito-junit-jupiter:3.10.0")
+
+    // Hamcrest
+    testImplementation(group: 'org.hamcrest', name: 'hamcrest-library', version: '1.3')
 }
 
 

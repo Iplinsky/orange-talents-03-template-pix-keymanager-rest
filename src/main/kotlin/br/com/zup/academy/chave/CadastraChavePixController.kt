@@ -15,7 +15,12 @@ class CadastraChavePixController(private val clientStub: KeyManagerCadastrarGrpc
 
     @Post
     fun cadastrarChavePix(@Valid @Body request: ChavePixRequestDto): HttpResponse<Any> {
-        return HttpResponse.created(URI("/chave-pix/${clientStub.cadastrarChavePix(request.toGrpcModel()).clientId}"))
+
+        val toGrpcModel = request.toGrpcModel()
+        println(toGrpcModel)
+        val response = clientStub.cadastrarChavePix(toGrpcModel)
+
+        return HttpResponse.created(URI("/chave-pix/${response.pixId}"))
     }
 
 }
