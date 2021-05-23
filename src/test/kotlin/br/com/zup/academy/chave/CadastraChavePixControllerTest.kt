@@ -202,11 +202,9 @@ internal class CadastraChavePixControllerTest {
      **/
     @Factory
     @Replaces(factory = FactoryClientGrpc::class)
-    internal
-
-    class MockFactoryGrpc {
+    internal class MockFactoryGrpc {
         @Singleton
-        fun mockBlockingStub() =
+        fun mockFactory() =
             mock(KeyManagerCadastrarGrpcServiceGrpc.KeyManagerCadastrarGrpcServiceBlockingStub::class.java)
     }
 }
