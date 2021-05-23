@@ -5,7 +5,7 @@ import io.micronaut.core.annotation.Introspected
 import javax.validation.constraints.NotBlank
 
 @Introspected
-class ChaveRemocaoRequest(
+data class ChaveRemocaoRequest(
     @field:NotBlank
     val pixId: String,
 

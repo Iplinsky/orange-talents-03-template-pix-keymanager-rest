@@ -6,6 +6,7 @@ import io.micronaut.grpc.annotation.GrpcChannel
 import javax.inject.Singleton
 import br.com.zup.academy.KeyManagerCadastrarGrpcServiceGrpc.newBlockingStub as cadastroBlockinStub
 import br.com.zup.academy.KeyManagerRemoveGrpcServiceGrpc.newBlockingStub as removeBlockingStub
+import br.com.zup.academy.KeymanagerConsultarGrpcServiceGrpc.newBlockingStub as consultaDetalhadaBlockingStub
 
 @Factory
 class FactoryClientGrpc(@GrpcChannel(value = "KeyManager") val channel: ManagedChannel) {
@@ -15,4 +16,7 @@ class FactoryClientGrpc(@GrpcChannel(value = "KeyManager") val channel: ManagedC
 
     @Singleton
     fun removeChaveStub() = removeBlockingStub(channel)
+
+    @Singleton
+    fun consultaDetalhada() = consultaDetalhadaBlockingStub(channel)
 }
