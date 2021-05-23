@@ -25,7 +25,7 @@ class GlobalExceptionHandler : ExceptionHandler<StatusRuntimeException, HttpResp
         val (status, message) = when (exception.status.code) {
             Status.NOT_FOUND.code -> Pair(HttpStatus.NOT_FOUND, description ?: "")
             Status.ALREADY_EXISTS.code -> Pair(HttpStatus.UNPROCESSABLE_ENTITY, description ?: "")
-            Status.INVALID_ARGUMENT.code -> Pair(HttpStatus.BAD_REQUEST, description ?: "")
+            Status.INVALID_ARGUMENT.code -> Pair(HttpStatus.BAD_REQUEST, "Os dados recebidos pela requisição estão inválidos.")
             else -> Pair(
                 HttpStatus.INTERNAL_SERVER_ERROR,
                 "Ocorreu um erro interno no servidor e não foi possível prosseguir com a sua solicitação."

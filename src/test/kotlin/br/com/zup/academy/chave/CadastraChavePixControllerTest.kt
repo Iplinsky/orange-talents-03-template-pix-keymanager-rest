@@ -50,7 +50,7 @@ internal class CadastraChavePixControllerTest {
             KeyPixRequestCadastro.newBuilder().setClientId(CLIENT_ID).setTipoConta(TipoConta.CONTA_CORRENTE)
                 .setTipoChavePix(TipoChave.EMAIL).setValorChave("email@email.com").build()
 
-        val restRequest = ChavePixRequestDto(
+        val restRequest = ChaveCadastroRequest(
             clientId = CLIENT_ID,
             tipoDaChave = TipoDaChave.EMAIL,
             valorDaChave = "email@email.com",
@@ -66,7 +66,7 @@ internal class CadastraChavePixControllerTest {
         BDDMockito.given(blockingStub.cadastrarChavePix(grpcRequest)).willReturn(grpcResponse)
 
         val postRequest = HttpRequest.POST("/chave-pix", restRequest)
-        val response = httpClient.toBlocking().exchange(postRequest, ChavePixRequestDto::class.java)
+        val response = httpClient.toBlocking().exchange(postRequest, ChaveCadastroRequest::class.java)
 
         with(response) {
             assertEquals(HttpStatus.CREATED.code, status.code)
@@ -84,7 +84,7 @@ internal class CadastraChavePixControllerTest {
             KeyPixRequestCadastro.newBuilder().setClientId(CLIENT_ID).setTipoConta(TipoConta.CONTA_CORRENTE)
                 .setTipoChavePix(TipoChave.EMAIL).setValorChave("email@email.com").build()
 
-        val restRequest = ChavePixRequestDto(
+        val restRequest = ChaveCadastroRequest(
             clientId = CLIENT_ID,
             tipoDaChave = TipoDaChave.EMAIL,
             valorDaChave = "email@email.com",
@@ -97,7 +97,7 @@ internal class CadastraChavePixControllerTest {
         val postRequest = HttpRequest.POST("/chave-pix", restRequest)
 
         val responseException = assertThrows<HttpClientResponseException> {
-            httpClient.toBlocking().exchange(postRequest, ChavePixRequestDto::class.java)
+            httpClient.toBlocking().exchange(postRequest, ChaveCadastroRequest::class.java)
         }
 
         with(responseException.status) {
@@ -114,7 +114,7 @@ internal class CadastraChavePixControllerTest {
             KeyPixRequestCadastro.newBuilder().setClientId(CLIENT_ID).setTipoConta(TipoConta.CONTA_CORRENTE)
                 .setTipoChavePix(TipoChave.CPF).setValorChave("email@email.com").build()
 
-        val restRequest = ChavePixRequestDto(
+        val restRequest = ChaveCadastroRequest(
             clientId = CLIENT_ID,
             tipoDaChave = TipoDaChave.CPF,
             valorDaChave = "email@email.com",
@@ -126,11 +126,12 @@ internal class CadastraChavePixControllerTest {
 
         val responseException = assertThrows<HttpClientResponseException> {
             httpClient.toBlocking()
-                .exchange(HttpRequest.POST("/chave-pix", restRequest), ChavePixRequestDto::class.java)
+                .exchange(HttpRequest.POST("/chave-pix", restRequest), ChaveCadastroRequest::class.java)
         }
 
-        with(responseException.status) {
-            assertEquals(HttpStatus.BAD_REQUEST.code, code)
+        with(responseException) {
+            assertEquals(HttpStatus.BAD_REQUEST.code, status.code)
+            assertEquals("Os dados recebidos pela requisição estão inválidos.", message)
         }
 
     }
@@ -145,7 +146,7 @@ internal class CadastraChavePixControllerTest {
             KeyPixRequestCadastro.newBuilder().setClientId(RANDOM_CLIENT_ID).setTipoConta(TipoConta.CONTA_CORRENTE)
                 .setTipoChavePix(TipoChave.CPF).setValorChave("email@email.com").build()
 
-        val restRequest = ChavePixRequestDto(
+        val restRequest = ChaveCadastroRequest(
             clientId = RANDOM_CLIENT_ID,
             tipoDaChave = TipoDaChave.CPF,
             valorDaChave = "email@email.com",
@@ -157,7 +158,7 @@ internal class CadastraChavePixControllerTest {
 
 
         val responseException = assertThrows<HttpClientResponseException> {
-            httpClient.toBlocking().exchange(HttpRequest.POST("chave-pix", restRequest), ChavePixRequestDto::class.java)
+            httpClient.toBlocking().exchange(HttpRequest.POST("chave-pix", restRequest), ChaveCadastroRequest::class.java)
         }
 
         with(responseException) {
@@ -174,7 +175,7 @@ internal class CadastraChavePixControllerTest {
             KeyPixRequestCadastro.newBuilder().setClientId(CLIENT_ID).setTipoConta(TipoConta.CONTA_CORRENTE)
                 .setTipoChavePix(TipoChave.CPF).setValorChave("email@email.com").build()
 
-        val restRequest = ChavePixRequestDto(
+        val restRequest = ChaveCadastroRequest(
             clientId = CLIENT_ID,
             tipoDaChave = TipoDaChave.CPF,
             valorDaChave = "email@email.com",
@@ -185,7 +186,7 @@ internal class CadastraChavePixControllerTest {
 
         val responseException = assertThrows<HttpClientResponseException> {
             httpClient.toBlocking()
-                .exchange(HttpRequest.POST("/chave-pix", restRequest), ChavePixRequestDto::class.java)
+                .exchange(HttpRequest.POST("/chave-pix", restRequest), ChaveCadastroRequest::class.java)
         }
 
         with(responseException) {

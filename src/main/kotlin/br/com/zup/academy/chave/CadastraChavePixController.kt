@@ -14,10 +14,9 @@ import javax.validation.Valid
 class CadastraChavePixController(private val clientStub: KeyManagerCadastrarGrpcServiceGrpc.KeyManagerCadastrarGrpcServiceBlockingStub) {
 
     @Post
-    fun cadastrarChavePix(@Valid @Body request: ChavePixRequestDto): HttpResponse<Any> {
+    fun cadastrarChavePix(@Valid @Body request: ChaveCadastroRequest): HttpResponse<Any> {
 
         val toGrpcModel = request.toGrpcModel()
-        println(toGrpcModel)
         val response = clientStub.cadastrarChavePix(toGrpcModel)
 
         return HttpResponse.created(URI("/chave-pix/${response.pixId}"))
